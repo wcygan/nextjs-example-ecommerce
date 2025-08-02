@@ -2,13 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## ⚠️ CRITICAL: Always Read design.md First
+## ⚠️ CRITICAL: Specialized Sub-Agents Required
 
-**BEFORE making any UI changes, you MUST:**
-1. Read `design.md` (in repository root) completely
-2. Follow the design system exactly as specified
-3. Use ONLY approved color tokens, spacing, and components
-4. Verify your changes against the Definition of Done checklist in design.md
+**BEFORE making any changes, you MUST leverage the specialized sub-agents:**
+
+### Three Specialized Agents Available
+1. **design-guardian** - UI/UX design enforcer (red) - Ensures strict design.md compliance
+2. **commerce-architect** - Ecommerce flow specialist (blue) - Handles cart, checkout, commerce logic  
+3. **type-architect** - TypeScript architecture specialist (green) - Ensures type safety & Next.js patterns
+
+### Mandatory Agent Consultation Rules
+- **ALL UI work**: Consult `design-guardian` FIRST before any styling or component changes
+- **ANY ecommerce feature**: Use `commerce-architect` for cart, products, checkout, state management
+- **TypeScript/architecture**: Engage `type-architect` for components, types, Next.js patterns, errors
+- **Complex features**: Use multiple agents in coordination (design → commerce → types)
 
 ## Project Overview
 
@@ -172,15 +179,43 @@ const checkoutSchema = z.object({
 - Unit tests for cart reducer actions
 - No current testing framework installed
 
-## Implementation Roadmap
+## Agent Coordination Rules & Quality Gates
 
-According to RFC, the 18-step implementation plan prioritizes:
+### Automatic Agent Triggers
+- **File creation/modification in `/components`**: Triggers `design-guardian` + `type-architect`
+- **Cart/checkout/commerce logic**: Automatically engages `commerce-architect`
+- **TypeScript errors or `tsc` failures**: Requires `type-architect` intervention
+- **UI styling or Tailwind changes**: Mandatory `design-guardian` approval
+- **New pages or routing**: All three agents must coordinate
 
-1. **Foundation:** Install shadcn/ui, configure theme tokens
-2. **State Management:** Implement CartProvider with localStorage sync
-3. **Data Layer:** Create mock API with product seeding
-4. **Core Pages:** Build inventory → product → cart → checkout → confirmation flow
-5. **Polish:** Add toasts, empty states, error handling
+### Quality Gates (Must Pass Before Proceeding)
+1. **Design Gate**: `design-guardian` approves all UI elements match design.md
+2. **Commerce Gate**: `commerce-architect` validates ecommerce flows and state management
+3. **Architecture Gate**: `type-architect` confirms TypeScript safety and Next.js patterns
+4. **Integration Gate**: All agents verify cross-cutting concerns are addressed
+
+### Multi-Agent Collaboration Patterns
+```
+Feature Type          Primary Agent        Secondary Agents           Coordination Pattern
+─────────────────────────────────────────────────────────────────────────────────────────
+Product Card          design-guardian      type-architect             UI → Types
+Shopping Cart         commerce-architect   design-guardian            Commerce → UI → Types
+Checkout Form         commerce-architect   design-guardian            Commerce → UI → Types  
+Type Definitions      type-architect       commerce-architect         Types → Commerce
+Page Layouts          design-guardian      type-architect             UI → Types
+API Integration       commerce-architect   type-architect             Commerce → Types
+Error Boundaries      type-architect       commerce-architect         Types → Commerce
+```
+
+## Implementation Roadmap (Agent-Coordinated)
+
+Each step requires specific agent approval:
+
+1. **Foundation** (`type-architect` + `design-guardian`): Install shadcn/ui, configure theme tokens
+2. **State Management** (`commerce-architect` + `type-architect`): Implement CartProvider with localStorage sync
+3. **Data Layer** (`commerce-architect` + `type-architect`): Create mock API with product seeding
+4. **Core Pages** (All agents): Build inventory → product → cart → checkout → confirmation flow
+5. **Polish** (`design-guardian` + `commerce-architect`): Add toasts, empty states, error handling
 
 ## Key Project Constraints
 
@@ -196,38 +231,72 @@ According to RFC, the 18-step implementation plan prioritizes:
 - Skeleton loading states during artificial latency
 - Lean bundle (avoid unnecessary libraries)
 
-## UI Development Workflow
+## Agent-Integrated Development Workflow
 
-### Phase 1: Rough Draft (Structure First)
-1. Read design.md completely before starting
-2. Generate rough draft for ALL pages using Next.js + Tailwind + shadcn/ui
-3. Prioritize structure and component choices over polish
-4. NO custom CSS - only Tailwind utilities and shadcn components
-5. Return minimal diffs
+### Phase 1: Architecture & Planning (Multi-Agent Coordination)
+1. **type-architect**: Define component architecture, Server/Client boundaries, type definitions
+2. **commerce-architect**: Plan ecommerce flow, state management, data models  
+3. **design-guardian**: Review design.md patterns for the planned feature
+4. Generate rough draft structure with agent-approved patterns
+5. Return minimal diffs focusing on architecture over polish
 
-### Phase 2: Polish (One Page at a Time)
-1. Focus on ONE page only per session
-2. Self-review first: identify spacing/typography/consistency issues
-3. Apply design.md rules strictly (8pt spacing, accessible contrast, shadcn variants)
-4. Add all required states: empty/loading/error/hover/focus
-5. Verify against design.md Definition of Done checklist
-6. Return diff only
+### Phase 2: Implementation & Polish (Agent-Specific Focus)
+1. **Primary Agent Selection**: Choose lead agent based on feature type:
+   - UI components → **design-guardian**
+   - Commerce flows → **commerce-architect** 
+   - TypeScript issues → **type-architect**
+2. **Lead Agent Review**: Agent reviews implementation against their specialty
+3. **Secondary Agent Validation**: Other agents validate their concerns
+4. Apply agent feedback with strict compliance
+5. Verify against all agent-specific requirements
 
-### Phase 3: Micro-fixes (Targeted)
-1. Make only specific, targeted improvements
-2. Tighten spacing, align elements, add subtle interactions
-3. Touch only the requested component/section
-4. Maintain consistency with design.md patterns
+### Phase 3: Quality Assurance (All-Agent Verification)
+1. **design-guardian**: Final design compliance check
+2. **commerce-architect**: Commerce flow and UX validation
+3. **type-architect**: TypeScript architecture and performance review
+4. All agents must approve before completion
+5. Return diff only after all-agent sign-off
+
+## Agent-Enforced Quality Standards
+
+### design-guardian Requirements (UI/UX)
+- ✅ ZERO tolerance for design.md violations
+- ✅ Only approved color tokens, spacing, typography
+- ✅ WCAG AA accessibility compliance mandatory
+- ✅ shadcn/ui components only (no custom CSS)
+- ✅ Consistent hover/focus/loading/error states
+- ✅ 4:3 aspect ratio images with `object-contain`
+
+### commerce-architect Requirements (Ecommerce)
+- ✅ Complete user journey validation (inventory → confirmation)
+- ✅ Proper Product/CartLine/Order type usage
+- ✅ CartProvider with localStorage synchronization
+- ✅ Mock API error handling (5% failure rate)
+- ✅ React Hook Form + Zod validation patterns
+- ✅ Optimistic updates for cart operations
+
+### type-architect Requirements (TypeScript)
+- ✅ Strict TypeScript compliance (no 'any' types)
+- ✅ Proper Server/Client Component boundaries
+- ✅ Clean import/export patterns (no circular deps)
+- ✅ Performance optimizations (memo, proper dependencies)
+- ✅ Error boundary implementations
+- ✅ Next.js 15 App Router best practices
+
+### Multi-Agent Definition of Done
+**EVERY feature must pass ALL agent validations:**
+1. **design-guardian**: UI matches design.md exactly
+2. **commerce-architect**: Commerce flow works end-to-end  
+3. **type-architect**: TypeScript compiles without errors
+4. **Integration**: All agents verify cross-cutting concerns
 
 ## Development Notes
 
 - **Package Manager:** Always use Bun for performance
-- **Design System:** NEVER deviate from design.md - it's the single source of truth
-- **Error Handling:** Mock API includes 5% error rate - implement proper error boundaries and retry logic  
-- **Accessibility:** ALL WCAG AA requirements from design.md are mandatory
-- **Images:** Use consistent 4:3 aspect ratio with `object-contain` (per design.md)
+- **Agent Hierarchy:** All three agents must approve significant changes
+- **Quality Gates:** No exceptions - agents enforce zero-compromise standards
+- **Coordination:** Use agents proactively, not reactively
 - **Currency:** Store prices as cents, format with `toLocaleString` helper
-- **Code Reviews:** Self-review against design.md checklist before completion
 
 ## Missing Dependencies
 
