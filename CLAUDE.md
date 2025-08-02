@@ -2,11 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ CRITICAL: Always Read design.md First
+
+**BEFORE making any UI changes, you MUST:**
+1. Read `design.md` (in repository root) completely
+2. Follow the design system exactly as specified
+3. Use ONLY approved color tokens, spacing, and components
+4. Verify your changes against the Definition of Done checklist in design.md
+
 ## Project Overview
 
-This is a **Next.js 15 ecommerce prototype** built according to the detailed RFC specification. The project is designed as a **UI-only demonstration** with no real backend, payments, or authentication - all data comes from mock APIs with simulated latency.
+This is a **Next.js 15 ecommerce prototype** built according to the detailed RFC specification and strict design.md guidelines. The project is designed as a **UI-only demonstration** with no real backend, payments, or authentication - all data comes from mock APIs with simulated latency.
 
-**Status:** Currently in planning/initialization phase with only Next.js boilerplate code. Implementation follows the comprehensive RFC.md blueprint.
+**Status:** Currently in planning/initialization phase with only Next.js boilerplate code. Implementation follows the comprehensive RFC.md blueprint and design.md specifications.
 
 ## Technology Stack
 
@@ -127,19 +135,22 @@ All data comes from `/lib/mockApi.ts` with:
 - SkeletonGrid (loading states)
 - Form wrappers with React Hook Form + Zod
 
-## Styling Guidelines
+## Design System Enforcement
 
-**Design System (from RFC):**
-- Base: neutral white/stone backgrounds (`bg-white`, `bg-stone-50`)
-- Text: `text-slate-900` primary, `text-slate-600` secondary
-- Accents: teal/emerald for CTAs (`emerald-500`, `hover:bg-emerald-600`)
-- Borders: subtle 1px (`border-slate-200`)
-- Generous spacing: `py-12` sections, `gap-6` grids
+**⚠️ MANDATORY: All styling MUST follow design.md specifications exactly.**
 
-**Typography:**
-- Product names: `text-lg md:text-xl font-medium`
-- Prices: `font-semibold`
-- Headings: `text-2xl md:text-3xl`
+### Approved Design Tokens ONLY
+- **Colors**: ONLY use tokens from design.md (no arbitrary colors)
+- **Spacing**: ONLY 8pt grid system (`py-12`, `gap-6`, `p-6`, etc.)
+- **Typography**: ONLY approved scales from design.md
+- **Components**: ONLY shadcn/ui components (no custom CSS unless absolutely necessary)
+
+### Design.md Integration Rules
+1. **Before ANY UI work**: Read design.md completely
+2. **Reference patterns**: Use exact code examples from design.md
+3. **Component consistency**: Follow component reuse patterns strictly
+4. **State management**: Implement all interactive states (hover, focus, loading, error)
+5. **Accessibility**: Meet all WCAG AA requirements from design.md checklist
 
 ## Form Validation
 
@@ -185,13 +196,38 @@ According to RFC, the 18-step implementation plan prioritizes:
 - Skeleton loading states during artificial latency
 - Lean bundle (avoid unnecessary libraries)
 
+## UI Development Workflow
+
+### Phase 1: Rough Draft (Structure First)
+1. Read design.md completely before starting
+2. Generate rough draft for ALL pages using Next.js + Tailwind + shadcn/ui
+3. Prioritize structure and component choices over polish
+4. NO custom CSS - only Tailwind utilities and shadcn components
+5. Return minimal diffs
+
+### Phase 2: Polish (One Page at a Time)
+1. Focus on ONE page only per session
+2. Self-review first: identify spacing/typography/consistency issues
+3. Apply design.md rules strictly (8pt spacing, accessible contrast, shadcn variants)
+4. Add all required states: empty/loading/error/hover/focus
+5. Verify against design.md Definition of Done checklist
+6. Return diff only
+
+### Phase 3: Micro-fixes (Targeted)
+1. Make only specific, targeted improvements
+2. Tighten spacing, align elements, add subtle interactions
+3. Touch only the requested component/section
+4. Maintain consistency with design.md patterns
+
 ## Development Notes
 
 - **Package Manager:** Always use Bun for performance
+- **Design System:** NEVER deviate from design.md - it's the single source of truth
 - **Error Handling:** Mock API includes 5% error rate - implement proper error boundaries and retry logic  
-- **Accessibility:** Ensure keyboard navigation, proper ARIA labels, WCAG AA contrast
-- **Images:** Use consistent 4:3 aspect ratio with `object-contain`
+- **Accessibility:** ALL WCAG AA requirements from design.md are mandatory
+- **Images:** Use consistent 4:3 aspect ratio with `object-contain` (per design.md)
 - **Currency:** Store prices as cents, format with `toLocaleString` helper
+- **Code Reviews:** Self-review against design.md checklist before completion
 
 ## Missing Dependencies
 
