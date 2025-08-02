@@ -5,14 +5,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
+
+NOTE: We prefer bun over npm, yarn, or pnpm for performance reasons. If you don't have bun installed, you can install it from [https://bun.sh](https://bun.sh).
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
