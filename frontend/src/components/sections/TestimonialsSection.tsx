@@ -54,7 +54,7 @@ export function TestimonialsSection() {
                 />
               ))}
             </div>
-            <p className="text-slate-600 mb-4 italic">"{testimonial.content}"</p>
+            <p className="text-slate-600 mb-4 italic">&ldquo;{testimonial.content}&rdquo;</p>
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium text-slate-900">{testimonial.name}</span>
               <span className="text-slate-500">{testimonial.date}</span>

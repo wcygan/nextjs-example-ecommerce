@@ -32,7 +32,16 @@ export function ExpressCheckout() {
       };
 
       const order = await createOrder({
-        ...mockSavedDetails,
+        email: mockSavedDetails.email,
+        shippingAddress: {
+          firstName: mockSavedDetails.firstName,
+          lastName: mockSavedDetails.lastName,
+          address1: mockSavedDetails.address1,
+          city: mockSavedDetails.city,
+          region: mockSavedDetails.region,
+          postalCode: mockSavedDetails.postalCode,
+          country: mockSavedDetails.country,
+        },
         lines,
         subtotal,
         shipping: subtotal >= 5000 ? 0 : 500,
