@@ -435,3 +435,144 @@ bun run build
 # Lint code
 bun run lint
 ```
+
+## Puppeteer MCP for Development & Debugging
+
+The Puppeteer MCP tool is available for browser automation, testing, and visual debugging. This is extremely useful for:
+- Taking screenshots of changes
+- Testing user flows
+- Debugging UI issues
+- Verifying responsive layouts
+
+### Available Puppeteer Commands
+
+1. **Navigate to a URL**
+   ```
+   mcp__puppeteer__puppeteer_navigate
+   - url: The URL to navigate to
+   ```
+
+2. **Take Screenshots**
+   ```
+   mcp__puppeteer__puppeteer_screenshot
+   - name: Name for the screenshot
+   - width: Width in pixels (e.g., 1200)
+   - height: Height in pixels (e.g., 800)
+   ```
+
+3. **Click Elements**
+   ```
+   mcp__puppeteer__puppeteer_click
+   - selector: CSS selector for element to click
+   ```
+
+4. **Fill Form Fields**
+   ```
+   mcp__puppeteer__puppeteer_fill
+   - selector: CSS selector for input field
+   - value: Value to fill
+   ```
+
+5. **Execute JavaScript**
+   ```
+   mcp__puppeteer__puppeteer_evaluate
+   - script: JavaScript code to execute
+   ```
+
+### Real-World Examples from Our Development
+
+#### Example 1: Testing Product Quick Add Feature
+```javascript
+// Navigate to homepage
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000" })
+
+// Click quick add button using JavaScript (when CSS selectors are tricky)
+mcp__puppeteer__puppeteer_evaluate({
+  script: `Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Quick add')).click()`
+})
+
+// Take screenshot to verify cart badge updated
+mcp__puppeteer__puppeteer_screenshot({
+  name: "after-quick-add",
+  width: 1200,
+  height: 800
+})
+```
+
+#### Example 2: Testing Checkout Form
+```javascript
+// Navigate to checkout
+mcp__puppeteer__puppeteer_navigate({ url: "http://localhost:3000/checkout" })
+
+// Fill form fields
+mcp__puppeteer__puppeteer_fill({ selector: 'input[name="email"]', value: "test@example.com" })
+mcp__puppeteer__puppeteer_fill({ selector: 'input[name="firstName"]', value: "John" })
+mcp__puppeteer__puppeteer_fill({ selector: 'input[name="lastName"]', value: "Doe" })
+
+// Submit form
+mcp__puppeteer__puppeteer_click({ selector: 'button[type="submit"]' })
+```
+
+#### Example 3: Debugging Responsive Layouts
+```javascript
+// Test mobile view
+mcp__puppeteer__puppeteer_screenshot({
+  name: "mobile-view",
+  width: 375,
+  height: 667
+})
+
+// Test tablet view
+mcp__puppeteer__puppeteer_screenshot({
+  name: "tablet-view",
+  width: 768,
+  height: 1024
+})
+
+// Test desktop view
+mcp__puppeteer__puppeteer_screenshot({
+  name: "desktop-view",
+  width: 1920,
+  height: 1080
+})
+```
+
+#### Example 4: Scrolling and Navigation
+```javascript
+// Scroll to see more content
+mcp__puppeteer__puppeteer_evaluate({
+  script: "window.scrollBy(0, 400)"
+})
+
+// Navigate using link clicks
+mcp__puppeteer__puppeteer_click({ selector: 'a[href="/cart"]' })
+
+// Check current location
+mcp__puppeteer__puppeteer_evaluate({
+  script: "window.location.pathname"
+})
+```
+
+### Tips for Using Puppeteer MCP
+
+1. **Always run `bun dev` first** - The development server must be running in a separate terminal
+
+2. **Use JavaScript evaluation for complex selectors** - When CSS selectors are difficult (e.g., selecting by text content), use evaluate with JavaScript
+
+3. **Take screenshots liberally** - Visual verification is invaluable for UI development
+
+4. **Test error states** - Use Puppeteer to trigger the 5% error rate in our mock API
+
+5. **Verify localStorage** - Check cart persistence:
+   ```javascript
+   mcp__puppeteer__puppeteer_evaluate({
+     script: "localStorage.getItem('cart')"
+   })
+   ```
+
+### Common Debugging Patterns
+
+1. **When forms don't submit**: Check validation errors in screenshots
+2. **When clicks don't work**: Try JavaScript click instead of CSS selector
+3. **When testing cart**: Verify localStorage and cart badge updates
+4. **When testing responsive**: Take screenshots at multiple viewport sizes
