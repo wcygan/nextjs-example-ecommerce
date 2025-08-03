@@ -18,11 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { ContactSection } from "./ContactSection";
-import { ShippingSection } from "./ShippingSection";
-import { PaymentSection } from "./PaymentSection";
 
 export function CheckoutForm() {
   const router = useRouter();
@@ -34,15 +29,6 @@ export function CheckoutForm() {
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
       email: "",
-      firstName: "",
-      lastName: "",
-      address1: "",
-      address2: "",
-      city: "",
-      region: "",
-      postalCode: "",
-      country: "US",
-      paymentMethod: "now",
     },
   });
 
@@ -54,14 +40,14 @@ export function CheckoutForm() {
       const order = await createOrder({
         email: values.email,
         shippingAddress: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          address1: values.address1,
-          address2: values.address2,
-          city: values.city,
-          region: values.region,
-          postalCode: values.postalCode,
-          country: values.country,
+          firstName: "Guest",
+          lastName: "User",
+          address1: "123 Demo Street",
+          address2: "",
+          city: "Demo City",
+          region: "CA",
+          postalCode: "12345",
+          country: "US",
         },
         lines,
         subtotal,
@@ -69,9 +55,12 @@ export function CheckoutForm() {
         total: subtotal + shipping,
       });
 
-      // Clear cart and redirect to confirmation
-      clear();
+      // Redirect to confirmation page first, then clear cart
       router.push(`/order/${order.id}`);
+      // Clear cart after a small delay to avoid redirect race condition
+      setTimeout(() => {
+        clear();
+      }, 100);
     } catch (error) {
       toast({
         title: "Error",
@@ -85,9 +74,35 @@ export function CheckoutForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <ContactSection form={form} />
-        <ShippingSection form={form} />
-        <PaymentSection form={form} />
+        <section>
+          <h2 className="text-xl font-medium mb-4">Contact Information</h2>
+          <p className="text-sm text-slate-600 mb-6">
+            Enter your email to receive order confirmation.
+          </p>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="your@email.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </section>
+
+        <div className="border-t border-slate-200 pt-6">
+          <p className="text-sm text-slate-600 mb-4">
+            This is a demo checkout. No payment will be processed.
+          </p>
+        </div>
 
         <Button
           type="submit"

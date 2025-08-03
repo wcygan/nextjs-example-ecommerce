@@ -21,6 +21,9 @@ export async function getProduct(slug: string): Promise<Product | undefined> {
   return products.find(p => p.slug === slug);
 }
 
+// In-memory storage for orders (since sessionStorage is client-only)
+const orderStore = new Map<string, Order>();
+
 export async function createOrder(payload: Omit<Order, "id" | "number" | "createdAt">): Promise<Order> {
   await wait(Math.random() * 400 + 400); // 400-800ms
   maybeFail();
@@ -33,7 +36,10 @@ export async function createOrder(payload: Omit<Order, "id" | "number" | "create
     createdAt: new Date().toISOString(),
   };
   
-  // Store in sessionStorage for confirmation page
+  // Store in memory
+  orderStore.set(id, order);
+  
+  // Also store in sessionStorage if available (client-side)
   if (typeof window !== "undefined") {
     sessionStorage.setItem(`order_${id}`, JSON.stringify(order));
   }
@@ -44,6 +50,13 @@ export async function createOrder(payload: Omit<Order, "id" | "number" | "create
 export async function getOrder(id: string): Promise<Order | null> {
   await wait(Math.random() * 250 + 150); // 150-400ms
   
+  // First check in-memory store
+  const order = orderStore.get(id);
+  if (order) {
+    return order;
+  }
+  
+  // Fallback to sessionStorage if available
   if (typeof window !== "undefined") {
     const stored = sessionStorage.getItem(`order_${id}`);
     if (stored) {
