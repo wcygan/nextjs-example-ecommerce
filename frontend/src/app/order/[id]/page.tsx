@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { getOrder } from "@/lib/mockApi";
 import { OrderConfirmation } from "@/components/order/OrderConfirmation";
 import { Order } from "@/types";
 
 interface OrderPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function OrderPage({ params }: OrderPageProps) {
+  const resolvedParams = use(params);
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getOrder(params.id)
+    getOrder(resolvedParams.id)
       .then(setOrder)
       .finally(() => setLoading(false));
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   if (loading) {
     return (
