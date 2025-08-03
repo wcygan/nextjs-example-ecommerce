@@ -1,4 +1,25 @@
-<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="600" fill="#f5f5f5"/>
-  <text x="400" y="300" font-family="system-ui, sans-serif" font-size="24" fill="#a0a0a0" text-anchor="middle" dominant-baseline="middle">Product Image</text>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#fafaf9"/>
+  
+  <!-- Basket body -->
+  <path d="M 300 250 L 280 400 L 520 400 L 500 250 Z" fill="#d4a574" stroke="#b08d57" stroke-width="2"/>
+  
+  <!-- Weave pattern -->
+  <line x1="320" y1="270" x2="320" y2="380" stroke="#b08d57" stroke-width="2"/>
+  <line x1="350" y1="270" x2="350" y2="380" stroke="#b08d57" stroke-width="2"/>
+  <line x1="380" y1="270" x2="380" y2="380" stroke="#b08d57" stroke-width="2"/>
+  <line x1="410" y1="270" x2="410" y2="380" stroke="#b08d57" stroke-width="2"/>
+  <line x1="440" y1="270" x2="440" y2="380" stroke="#b08d57" stroke-width="2"/>
+  <line x1="470" y1="270" x2="470" y2="380" stroke="#b08d57" stroke-width="2"/>
+  
+  <!-- Horizontal weaves -->
+  <line x1="290" y1="300" x2="510" y2="300" stroke="#b08d57" stroke-width="2"/>
+  <line x1="285" y1="340" x2="515" y2="340" stroke="#b08d57" stroke-width="2"/>
+  
+  <!-- Handles -->
+  <ellipse cx="320" cy="250" rx="25" ry="15" fill="none" stroke="#b08d57" stroke-width="3"/>
+  <ellipse cx="480" cy="250" rx="25" ry="15" fill="none" stroke="#b08d57" stroke-width="3"/>
+  
+  <!-- Product name -->
+  <text x="400" y="480" font-family="system-ui, sans-serif" font-size="20" fill="#334155" text-anchor="middle">Woven Storage Basket</text>
 </svg>

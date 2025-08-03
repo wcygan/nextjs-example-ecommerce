@@ -1,4 +1,17 @@
-<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="600" fill="#f5f5f5"/>
-  <text x="400" y="300" font-family="system-ui, sans-serif" font-size="24" fill="#a0a0a0" text-anchor="middle" dominant-baseline="middle">Product Image</text>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#fafaf9"/>
+  
+  <!-- Table top -->
+  <rect x="300" y="250" width="200" height="30" rx="3" fill="#6b4423" stroke="#553517" stroke-width="2"/>
+  
+  <!-- Drawer -->
+  <rect x="320" y="280" width="160" height="40" fill="#553517" stroke="#442912" stroke-width="2"/>
+  <circle cx="400" cy="300" r="8" fill="#8b6f47"/>
+  
+  <!-- Legs -->
+  <rect x="320" y="320" width="15" height="120" fill="#6b4423" stroke="#553517" stroke-width="1"/>
+  <rect x="465" y="320" width="15" height="120" fill="#6b4423" stroke="#553517" stroke-width="1"/>
+  
+  <!-- Product name -->
+  <text x="400" y="480" font-family="system-ui, sans-serif" font-size="20" fill="#334155" text-anchor="middle">Walnut Side Table</text>
 </svg>
