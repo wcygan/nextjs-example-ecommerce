@@ -10,6 +10,9 @@ interface CartContextValue extends CartState {
   remove: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clear: () => void;
+  saveForLater: (id: string) => void;
+  moveToCart: (id: string) => void;
+  removeSaved: (id: string) => void;
 }
 
 export const CartContext = createContext<CartContextValue | null>(null);
@@ -80,12 +83,27 @@ export function CartProvider({ children }: CartProviderProps) {
     dispatch({ type: "CLEAR" });
   }, []);
 
+  const saveForLater = useCallback((id: string) => {
+    dispatch({ type: "SAVE_FOR_LATER", id });
+  }, []);
+
+  const moveToCart = useCallback((id: string) => {
+    dispatch({ type: "MOVE_TO_CART", id });
+  }, []);
+
+  const removeSaved = useCallback((id: string) => {
+    dispatch({ type: "REMOVE_SAVED", id });
+  }, []);
+
   const value: CartContextValue = {
     ...state,
     add,
     remove,
     updateQuantity,
     clear,
+    saveForLater,
+    moveToCart,
+    removeSaved,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Trash2, Heart } from "lucide-react";
 import { CartLine } from "@/types";
 import { toMoney } from "@/lib/currency";
 import { useCart } from "@/hooks/useCart";
@@ -11,10 +11,11 @@ import { Button } from "@/components/ui/button";
 
 interface CartLineItemProps {
   line: CartLine;
+  isSaved?: boolean;
 }
 
-export function CartLineItem({ line }: CartLineItemProps) {
-  const { remove, updateQuantity } = useCart();
+export function CartLineItem({ line, isSaved = false }: CartLineItemProps) {
+  const { remove, updateQuantity, saveForLater, moveToCart, removeSaved } = useCart();
 
   return (
     <div className="flex gap-4 py-4">
@@ -52,21 +53,58 @@ export function CartLineItem({ line }: CartLineItemProps) {
         </div>
 
         <div className="mt-2 flex items-center justify-between">
-          <QuantityStepper
-            value={line.quantity}
-            onChange={(qty) => updateQuantity(line.id, qty)}
-            min={1}
-            max={99}
-          />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => remove(line.id)}
-            className="text-slate-600 hover:text-red-600"
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="sr-only">Remove item</span>
-          </Button>
+          {!isSaved && (
+            <QuantityStepper
+              value={line.quantity}
+              onChange={(qty) => updateQuantity(line.id, qty)}
+              min={1}
+              max={99}
+            />
+          )}
+          <div className="flex items-center gap-2">
+            {!isSaved ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => saveForLater(line.id)}
+                  className="text-slate-600 hover:text-emerald-600"
+                >
+                  <Heart className="h-4 w-4 mr-1" />
+                  Save for later
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => remove(line.id)}
+                  className="text-slate-600 hover:text-red-600"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Remove item</span>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => moveToCart(line.id)}
+                  className="text-emerald-600 hover:text-emerald-700"
+                >
+                  Move to cart
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeSaved(line.id)}
+                  className="text-slate-600 hover:text-red-600"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Remove item</span>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

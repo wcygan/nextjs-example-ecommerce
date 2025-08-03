@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { OptionPicker } from "./OptionPicker";
+import { CustomersViewing } from "./CustomersViewing";
 
 interface ProductDetailProps {
   product: Product;
@@ -56,6 +57,28 @@ export function ProductDetail({ product }: ProductDetailProps) {
           {product.name}
         </h1>
         <p className="text-xl font-semibold mt-2">{toMoney(product.price)}</p>
+        
+        {/* Stock availability */}
+        {product.stock !== undefined && (
+          <div className="mt-3">
+            {product.stock > 0 ? (
+              <p className={`text-sm ${
+                product.stock <= 5 
+                  ? "text-orange-600 font-medium" 
+                  : "text-emerald-600"
+              }`}>
+                {product.stock <= 5 
+                  ? `Only ${product.stock} left in stock!` 
+                  : "In stock"}
+              </p>
+            ) : (
+              <p className="text-sm text-red-600 font-medium">Out of stock</p>
+            )}
+          </div>
+        )}
+        
+        {/* Customers Viewing */}
+        <CustomersViewing />
       </div>
 
       {product.options && (
@@ -83,8 +106,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
           onClick={handleAddToCart}
           className="w-full rounded-2xl py-3"
           size="lg"
+          disabled={product.stock === 0}
         >
-          Add to cart
+          {product.stock === 0 ? "Out of Stock" : "Add to cart"}
         </Button>
       </div>
 

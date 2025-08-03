@@ -4,6 +4,7 @@ import { CheckCircle } from "lucide-react";
 import { Order } from "@/types";
 import { toMoney } from "@/lib/currency";
 import { Button } from "@/components/ui/button";
+import { CheckoutProgress } from "../checkout/CheckoutProgress";
 
 interface OrderConfirmationProps {
   order: Order;
@@ -13,6 +14,11 @@ export function OrderConfirmation({ order }: OrderConfirmationProps) {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-2xl mx-auto">
+        {/* Progress Indicator */}
+        <div className="mb-8">
+          <CheckoutProgress currentStep="confirmation" />
+        </div>
+
         {/* Success Message */}
         <div className="text-center mb-8">
           <CheckCircle className="h-16 w-16 text-emerald-500 mx-auto mb-4" />

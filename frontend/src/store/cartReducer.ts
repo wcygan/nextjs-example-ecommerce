@@ -3,6 +3,7 @@ import { CartLine } from "@/types";
 
 export const initialCartState: CartState = {
   lines: [],
+  savedItems: [],
   subtotal: 0,
   itemCount: 0,
 };
@@ -37,13 +38,13 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
       }
 
       const { subtotal, itemCount } = calculateTotals(newLines);
-      return { lines: newLines, subtotal, itemCount };
+      return { ...state, lines: newLines, subtotal, itemCount };
     }
 
     case "REMOVE": {
       const newLines = state.lines.filter((line) => line.id !== action.id);
       const { subtotal, itemCount } = calculateTotals(newLines);
-      return { lines: newLines, subtotal, itemCount };
+      return { ...state, lines: newLines, subtotal, itemCount };
     }
 
     case "UPDATE_QTY": {
@@ -56,15 +57,52 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
         line.id === action.id ? { ...line, quantity: action.quantity } : line
       );
       const { subtotal, itemCount } = calculateTotals(newLines);
-      return { lines: newLines, subtotal, itemCount };
+      return { ...state, lines: newLines, subtotal, itemCount };
     }
 
     case "CLEAR": {
-      return initialCartState;
+      return { ...initialCartState, savedItems: state.savedItems };
     }
 
     case "HYDRATE": {
       return action.state;
+    }
+
+    case "SAVE_FOR_LATER": {
+      const lineToSave = state.lines.find((line) => line.id === action.id);
+      if (!lineToSave) return state;
+
+      const newLines = state.lines.filter((line) => line.id !== action.id);
+      const newSavedItems = [...state.savedItems, lineToSave];
+      const { subtotal, itemCount } = calculateTotals(newLines);
+
+      return {
+        lines: newLines,
+        savedItems: newSavedItems,
+        subtotal,
+        itemCount,
+      };
+    }
+
+    case "MOVE_TO_CART": {
+      const savedItem = state.savedItems.find((item) => item.id === action.id);
+      if (!savedItem) return state;
+
+      const newSavedItems = state.savedItems.filter((item) => item.id !== action.id);
+      const newLines = [...state.lines, savedItem];
+      const { subtotal, itemCount } = calculateTotals(newLines);
+
+      return {
+        lines: newLines,
+        savedItems: newSavedItems,
+        subtotal,
+        itemCount,
+      };
+    }
+
+    case "REMOVE_SAVED": {
+      const newSavedItems = state.savedItems.filter((item) => item.id !== action.id);
+      return { ...state, savedItems: newSavedItems };
     }
 
     default:

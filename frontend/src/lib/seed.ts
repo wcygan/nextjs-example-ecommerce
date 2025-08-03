@@ -20,6 +20,8 @@ export const products: Product[] = [
       },
     ],
     sku: "BNCH-OAK-001",
+    badge: { type: "new" },
+    stock: 5,
   },
   {
     id: "prod_002",
@@ -49,6 +51,8 @@ export const products: Product[] = [
       },
     ],
     sku: "LAMP-FLR-MIN",
+    badge: { type: "sale", text: "20% OFF" },
+    stock: 12,
   },
   {
     id: "prod_004",
@@ -70,6 +74,7 @@ export const products: Product[] = [
       },
     ],
     sku: "PILL-LIN-002",
+    stock: 25,
   },
   {
     id: "prod_005",
@@ -100,6 +105,8 @@ export const products: Product[] = [
       },
     ],
     sku: "ART-GEO-001",
+    badge: { type: "limited" },
+    stock: 3,
   },
   {
     id: "prod_007",
@@ -109,6 +116,7 @@ export const products: Product[] = [
     image: "/products/coasters.svg",
     description: "Set of four genuine marble coasters with cork backing. Each piece features unique natural veining. Protects surfaces while adding elegance.",
     sku: "CSTR-MRB-004",
+    stock: 50,
   },
   {
     id: "prod_008",
@@ -138,6 +146,8 @@ export const products: Product[] = [
     image: "/products/pendant-light.svg",
     description: "Hammered copper pendant light with adjustable cord length. Warm metallic finish adds industrial charm. E26 bulb compatible.",
     sku: "LAMP-PND-CPR",
+    badge: { type: "new" },
+    stock: 8,
   },
   {
     id: "prod_010",

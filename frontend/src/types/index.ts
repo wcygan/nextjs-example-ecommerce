@@ -15,6 +15,11 @@ export type Product = {
   description: string;
   options?: ProductOption[];
   sku?: string;
+  badge?: {
+    type: "new" | "sale" | "limited";
+    text?: string;
+  };
+  stock?: number;
 };
 
 export type CartLine = {
@@ -25,6 +30,7 @@ export type CartLine = {
   quantity: number;
   image: string;
   selectedOptions?: Record<string, string>; // optionId -> valueId
+  stock?: number; // Available stock for this item
 };
 
 export type Order = {
