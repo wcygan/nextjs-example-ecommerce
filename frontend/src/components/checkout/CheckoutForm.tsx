@@ -55,12 +55,10 @@ export function CheckoutForm() {
         total: subtotal + shipping,
       });
 
-      // Redirect to confirmation page first, then clear cart
+      // Clear cart first to ensure it happens
+      clear();
+      // Redirect to confirmation page
       router.push(`/order/${order.id}`);
-      // Clear cart after a small delay to avoid redirect race condition
-      setTimeout(() => {
-        clear();
-      }, 100);
     } catch (error) {
       toast({
         title: "Error",

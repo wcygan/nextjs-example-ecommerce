@@ -35,7 +35,12 @@ export function CartProvider({ children }: CartProviderProps) {
       if (stored) {
         const parsed = JSON.parse(stored) as CartState;
         if (parsed.lines && Array.isArray(parsed.lines)) {
-          dispatch({ type: "HYDRATE", state: parsed });
+          // Ensure savedItems is always an array
+          const hydratedState: CartState = {
+            ...parsed,
+            savedItems: Array.isArray(parsed.savedItems) ? parsed.savedItems : [],
+          };
+          dispatch({ type: "HYDRATE", state: hydratedState });
         }
       }
     } catch (error) {
